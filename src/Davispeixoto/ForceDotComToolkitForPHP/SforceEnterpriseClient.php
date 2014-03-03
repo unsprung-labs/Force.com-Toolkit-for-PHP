@@ -1,4 +1,4 @@
-<?php namespace Davispeixoto\ForceDotComToolkitForPhp;
+<?php namespace Davispeixoto\ForceDotComToolkitForPHP;
 /*
  * Copyright (c) 2007, salesforce.com, inc.
  * All rights reserved.
