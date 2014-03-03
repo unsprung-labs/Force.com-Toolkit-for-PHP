@@ -1,4 +1,4 @@
-<?php namespace Davispeixoto\ForceDotComToolkitForPHP;
+<?php namespace Davispeixoto\ForceDotComToolkitForPhp;
 /*
  * Copyright (c) 2007, salesforce.com, inc.
  * All rights reserved.
@@ -25,65 +25,23 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-class SforceCustomObject {
-	public function setDeploymentStatus($deploymentStatus) {
-		$this->deploymentStatus = $deploymentStatus;
-	}
+class SforceFieldTypes {
+  const DEPLOYMENT_STATUS_INDEVELOPMENT = 'InDevelopment';
+  const DEPLOYMENT_STATUS_DEPLOYED = 'Deployed';
 
-	public function setDescription($description) {
-		$this->description = $description;
-	}
+  const GENDER_NEUTER = 'Neuter';
+  const GENDER_MASCULINE = 'Masculine';
+  const GENDER_FEMININE = 'Feminine';
 
-	public function setEnableActivities($enableActivities) {
-		$this->enableActivities = $enableActivities;
-	}
+  const SHARING_MODEL_PRIVATE = 'Private';
+  const SHARING_MODEL_READ = 'Read';
+  const SHARING_MODEL_READWRITE = 'ReadWrite';
 
-	public function setEnableDivisions($enableDivisions) {
-		$this->enableDivisions = $enableDivisions;
-	}
+  const STARTS_WITH_CONSONANT = 'Consonant';
+  const STARTS_WITH_VOWEL = 'Vowel';
+  const STARTS_WITH_SPECIAL = 'Special';
 
-	public function setEnableHistory($enableHistory) {
-		$this->enableHistory = $enableHistory;
-	}
-
-	public function setEnableReports($enableReports) {
-		$this->enableReports = $enableReports;
-	}
-
-	public function setFields($fields) {
-		$this->fields = $fields;
-	}
-
-	public function setFullName($fullName) {
-		$this->fullName = $fullName;
-	}
-
-	public function setGender($gender) {
-		$this->gender = $gender;
-	}
-
-	public function setHousehold($household) {
-		$this->household = $household;
-	}
-
-	public function setLabel($label) {
-		$this->label = $label;
-	}
-
-	public function setNameField($nameField) {
-		$this->nameField = $nameField;
-	}
-
-	public function setPluralLabel($pluralLabel) {
-		$this->pluralLabel = $pluralLabel;
-	}
-
-	public function setSharingModel($sharingModel) {
-		$this->sharingModel = $sharingModel;
-	}
-
-	public function setStartsWith($startsWith) {
-		$this->startsWith = $startsWith;
-	}
+  const TREAT_BLANKS_AS_BLANK = 'BlankAsBlank';
+  const TREAT_BLANKS_AS_ZERO = 'BlankAsZero';
 }
 ?>

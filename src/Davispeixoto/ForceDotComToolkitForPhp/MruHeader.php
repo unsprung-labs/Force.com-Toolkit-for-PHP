@@ -1,4 +1,4 @@
-<?php namespace Davispeixoto\ForceDotComToolkitForPHP;
+<?php namespace Davispeixoto\ForceDotComToolkitForPhp;
 /*
  * Copyright (c) 2007, salesforce.com, inc.
  * All rights reserved.
@@ -25,13 +25,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-class CallOptions {
-	public $client;
-	public $defaultNamespace;
+/**
+ * To be used with Create and Update operations.
+ *
+ * @package SalesforceSoapClient
+ */
+class MruHeader {
+	// boolean that Indicates whether to update the list of most recently used items (True) or not (False).
+	public $updateMruFlag;
 
-	public function __construct($client, $defaultNamespace=NULL) {
-		$this->client = $client;
-		$this->defaultNamespace = $defaultNamespace;
+	public function __construct($bool) {
+		$this->updateMruFlag = $bool;
 	}
 }
 ?>

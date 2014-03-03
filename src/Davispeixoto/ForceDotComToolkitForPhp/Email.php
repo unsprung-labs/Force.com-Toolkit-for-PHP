@@ -1,4 +1,4 @@
-<?php namespace Davispeixoto\ForceDotComToolkitForPHP;
+<?php namespace Davispeixoto\ForceDotComToolkitForPhp;
 /*
  * Copyright (c) 2007, salesforce.com, inc.
  * All rights reserved.
@@ -25,15 +25,55 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-class EmailHeader {
-	public $triggerAutoResponseEmail;
-	public $triggerOtherEmail;
-	public $triggerUserEmail;
+class Email {
+  const EMAIL_PRIORITY_HIGHEST = 'Highest';
+  const EMAIL_PRIORITY_HIGH = 'High';
+  const EMAIL_PRIORITY_NORMAL = 'Normal';
+  const EMAIL_PRIORITY_LOW = 'Low';
+  const EMAIL_PRIORITY_LOWEST = 'Lowest';
+	
+  public function setBccSender($bccSender) {
+    $this->bccSender = $bccSender;
+  }
 
-	public function __construct($triggerAutoResponseEmail = false, $triggerOtherEmail = false, $triggerUserEmail = false) {
-		$this->triggerAutoResponseEmail = $triggerAutoResponseEmail;
-		$this->triggerOtherEmail = $triggerOtherEmail;
-		$this->triggerUserEmail = $triggerUserEmail;
-	}
+  public function setEmailPriority($priority) {
+    $this->emailPriority = $priority;
+  }
+   
+  public function setSubject($subject) {
+    $this->subject = $subject;
+  }
+
+  public function setSaveAsActivity($saveAsActivity) {
+    $this->saveAsActivity = $saveAsActivity;
+  }
+
+  public function setReplyTo($replyTo) {
+    $this->replyTo = $replyTo;
+  }
+
+  public function setUseSignature($useSignature) {
+    $this->useSignature = $useSignature;
+  }
+  
+  public function setSenderDisplayName($name) {
+    $this->senderDisplayName = $name;
+  }
+}
+
+
+
+class MassEmailMessage extends Email {
+  public function setTemplateId($templateId) {
+    $this->templateId = $templateId;
+  }
+
+  public function setWhatIds($array) {
+    $this->whatIds = $array;
+  }
+
+  public function setTargetObjectIds($array) {
+    $this->targetObjectIds = $array;
+  }
 }
 ?>

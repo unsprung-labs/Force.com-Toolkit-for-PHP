@@ -1,4 +1,4 @@
-<?php namespace Davispeixoto\ForceDotComToolkitForPHP;
+<?php namespace Davispeixoto\ForceDotComToolkitForPhp;
 /*
  * Copyright (c) 2007, salesforce.com, inc.
  * All rights reserved.
@@ -25,19 +25,22 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-/**
- * To be used with the Login operation.
- *
- * @package SalesforceSoapClient
- */
-class LoginScopeHeader {
-	// boolean that Indicates whether to update the list of most recently used items (True) or not (False).
-	public $organizationId;
-	public $portalId;
-
-	public function __construct($orgId = NULL, $portalId = NULL) {
-		$this->organizationId = $orgId;
-		$this->portalId = $portalId;
-	}
+class PackageVersionHeader {
+    /**
+     * @var array $packageVersions
+     */
+    public $packageVersions;
+    
+    /**
+     * Class constructor.
+     * 
+     * @param array $packageVersions
+     * @return void
+     */
+    public function __construct($packageVersions) {
+        $this->packageVersions = $packageVersions;
+    }
 }
+
+
 ?>

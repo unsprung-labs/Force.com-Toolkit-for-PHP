@@ -1,4 +1,4 @@
-<?php namespace Davispeixoto\ForceDotComToolkitForPHP;
+<?php namespace Davispeixoto\ForceDotComToolkitForPhp;
 /*
  * Copyright (c) 2007, salesforce.com, inc.
  * All rights reserved.
@@ -25,27 +25,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-/**
- * This class is used by PackageVersionHeader
- * @see PackageVersionHeader
- */
-class PackageVersion {
-    public $majorNumber;
-    public $minorNumber;
-    public $namespace;
-    
-    /**
-     * Class constructor.
-     * 
-     * @param int $majorNumber
-     * @param int $minorNumber
-     * @param string $namespace
-     * @return void
-     */
-    public function __construct($majorNumber, $minorNumber, $namespace) {
-        $this->majorNumber = $majorNumber;
-        $this->minorNumber = $minorNumber;
-        $this->namespace = $namespace;
-    }
+class UserTerritoryDeleteHeader {
+	public $transferToUserId;
+
+	public function __construct($transferToUserId) {
+		$this->transferToUserId = $transferToUserId;
+	}
 }
 ?>

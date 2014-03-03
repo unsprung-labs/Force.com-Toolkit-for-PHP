@@ -1,4 +1,4 @@
-<?php namespace Davispeixoto\ForceDotComToolkitForPHP;
+<?php namespace Davispeixoto\ForceDotComToolkitForPhp;
 /*
  * Copyright (c) 2007, salesforce.com, inc.
  * All rights reserved.
@@ -24,10 +24,28 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-class ProxySettings {
-  public $host;
-  public $port;
-  public $login;
-  public $password;
+
+/**
+ * This class is used by PackageVersionHeader
+ * @see PackageVersionHeader
+ */
+class PackageVersion {
+    public $majorNumber;
+    public $minorNumber;
+    public $namespace;
+    
+    /**
+     * Class constructor.
+     * 
+     * @param int $majorNumber
+     * @param int $minorNumber
+     * @param string $namespace
+     * @return void
+     */
+    public function __construct($majorNumber, $minorNumber, $namespace) {
+        $this->majorNumber = $majorNumber;
+        $this->minorNumber = $minorNumber;
+        $this->namespace = $namespace;
+    }
 }
 ?>

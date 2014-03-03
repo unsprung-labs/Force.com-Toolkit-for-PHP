@@ -1,4 +1,4 @@
-<?php namespace Davispeixoto\ForceDotComToolkitForPHP;
+<?php namespace Davispeixoto\ForceDotComToolkitForPhp;
 /*
  * Copyright (c) 2007, salesforce.com, inc.
  * All rights reserved.
@@ -26,30 +26,18 @@
  */
 
 /**
- * To be used with Create and Update operations.
- * Only one attribute can be set at a time.
+ * To be used with the Login operation.
  *
  * @package SalesforceSoapClient
  */
-class AssignmentRuleHeader {
-	// int
-	public $assignmentRuleId;
-	// boolean
-	public $useDefaultRuleFlag;
+class LoginScopeHeader {
+	// boolean that Indicates whether to update the list of most recently used items (True) or not (False).
+	public $organizationId;
+	public $portalId;
 
-	/**
-	 * Constructor.  Only one param can be set.
-	 *
-	 * @param int $id  AssignmentRuleId
-	 * @param boolean $flag  UseDefaultRule flag
-	 */
-	public function __construct($id = NULL, $flag = NULL) {
-		if ($id != NULL) {
-			$this->assignmentRuleId = $id;
-		}
-		if ($flag != NULL) {
-			$this->useDefaultRuleFlag = $flag;
-		}
+	public function __construct($orgId = NULL, $portalId = NULL) {
+		$this->organizationId = $orgId;
+		$this->portalId = $portalId;
 	}
 }
 ?>

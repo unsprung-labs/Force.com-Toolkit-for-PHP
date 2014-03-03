@@ -1,4 +1,4 @@
-<?php namespace Davispeixoto\ForceDotComToolkitForPHP;
+<?php namespace Davispeixoto\ForceDotComToolkitForPhp;
 /*
  * Copyright (c) 2007, salesforce.com, inc.
  * All rights reserved.
@@ -25,11 +25,31 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-class UserTerritoryDeleteHeader {
-	public $transferToUserId;
+/**
+ * To be used with Create and Update operations.
+ * Only one attribute can be set at a time.
+ *
+ * @package SalesforceSoapClient
+ */
+class AssignmentRuleHeader {
+	// int
+	public $assignmentRuleId;
+	// boolean
+	public $useDefaultRuleFlag;
 
-	public function __construct($transferToUserId) {
-		$this->transferToUserId = $transferToUserId;
+	/**
+	 * Constructor.  Only one param can be set.
+	 *
+	 * @param int $id  AssignmentRuleId
+	 * @param boolean $flag  UseDefaultRule flag
+	 */
+	public function __construct($id = NULL, $flag = NULL) {
+		if ($id != NULL) {
+			$this->assignmentRuleId = $id;
+		}
+		if ($flag != NULL) {
+			$this->useDefaultRuleFlag = $flag;
+		}
 	}
 }
 ?>

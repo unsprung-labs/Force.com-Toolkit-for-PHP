@@ -1,4 +1,4 @@
-<?php namespace Davispeixoto\ForceDotComToolkitForPHP;
+<?php namespace Davispeixoto\ForceDotComToolkitForPhp;
 /*
  * Copyright (c) 2007, salesforce.com, inc.
  * All rights reserved.
@@ -25,22 +25,13 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-class PackageVersionHeader {
-    /**
-     * @var array $packageVersions
-     */
-    public $packageVersions;
-    
-    /**
-     * Class constructor.
-     * 
-     * @param array $packageVersions
-     * @return void
-     */
-    public function __construct($packageVersions) {
-        $this->packageVersions = $packageVersions;
-    }
+class CallOptions {
+	public $client;
+	public $defaultNamespace;
+
+	public function __construct($client, $defaultNamespace=NULL) {
+		$this->client = $client;
+		$this->defaultNamespace = $defaultNamespace;
+	}
 }
-
-
 ?>
