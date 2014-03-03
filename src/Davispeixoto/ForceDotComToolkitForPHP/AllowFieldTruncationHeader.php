@@ -1,6 +1,4 @@
-<?php
-
-namespace Davispeixoto\ForceDotComToolkitForPhp;
+<?php namespace Davispeixoto\ForceDotComToolkitForPhp;
 /*
  * Copyright (c) 2007, salesforce.com, inc.
  * All rights reserved.
@@ -26,17 +24,13 @@ namespace Davispeixoto\ForceDotComToolkitForPhp;
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-abstract class ProcessRequest {
-	public $comments;
-	public $nextApproverIds;
+
+class AllowFieldTruncationHeader {
+    public $allowFieldTruncation;
+    
+    public function __construct($allowFieldTruncation) {
+        $this->allowFieldTruncation = $allowFieldTruncation;
+    }
 }
 
-class ProcessSubmitRequest extends ProcessRequest {
-	public $objectId;
-}
-
-class ProcessWorkitemRequest extends ProcessRequest {
-  public $action;
-  public $workitemId;
-}
 ?>

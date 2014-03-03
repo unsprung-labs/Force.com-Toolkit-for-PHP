@@ -25,23 +25,37 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-class SforceFieldTypes {
-  const DEPLOYMENT_STATUS_INDEVELOPMENT = 'InDevelopment';
-  const DEPLOYMENT_STATUS_DEPLOYED = 'Deployed';
+/**
+ * SforceSoapClient class.
+ *
+ * @package SalesforceSoapClient
+ */
+// When parsing partner WSDL, when PHP SOAP sees NewValue and OldValue, since
+// the element has a xsi:type attribute with value 'string', it drops the
+// string content into the parsed output and loses the tag name. Removing the
+// xsi:type forces PHP SOAP to just leave the tags intact
+class SforceSoapClient extends SoapClient {
+	function __doRequest($request, $location, $action, $version, $one_way=0) {
+		$response = parent::__doRequest($request, $location, $action, $version, $one_way);
 
-  const GENDER_NEUTER = 'Neuter';
-  const GENDER_MASCULINE = 'Masculine';
-  const GENDER_FEMININE = 'Feminine';
+		// Quick check to only parse the XML here if we think we need to
+		if (strpos($response, '<sf:OldValue') === false && strpos($response, '<sf:NewValue') === false) {
+			return $response;
+		}
 
-  const SHARING_MODEL_PRIVATE = 'Private';
-  const SHARING_MODEL_READ = 'Read';
-  const SHARING_MODEL_READWRITE = 'ReadWrite';
+		$dom = new DOMDocument();
+		$dom->loadXML($response);
 
-  const STARTS_WITH_CONSONANT = 'Consonant';
-  const STARTS_WITH_VOWEL = 'Vowel';
-  const STARTS_WITH_SPECIAL = 'Special';
+		$nodeList = $dom->getElementsByTagName('NewValue');
+		foreach ($nodeList as $node) {
+			$node->removeAttributeNS('http://www.w3.org/2001/XMLSchema-instance', 'type');
+		}
+		$nodeList = $dom->getElementsByTagName('OldValue');
+		foreach ($nodeList as $node) {
+			$node->removeAttributeNS('http://www.w3.org/2001/XMLSchema-instance', 'type');
+		}
 
-  const TREAT_BLANKS_AS_BLANK = 'BlankAsBlank';
-  const TREAT_BLANKS_AS_ZERO = 'BlankAsZero';
+		return $dom->saveXML();
+	}
 }
 ?>

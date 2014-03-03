@@ -25,23 +25,22 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-class SforceFieldTypes {
-  const DEPLOYMENT_STATUS_INDEVELOPMENT = 'InDevelopment';
-  const DEPLOYMENT_STATUS_DEPLOYED = 'Deployed';
+/**
+ * To be used with Retrieve, Query, and QueryMore operations.
+ *
+ * @package SalesforceSoapClient
+ */
+class QueryOptions {
+	// int - Batch size for the number of records returned in a query or queryMore call. The default is 500; the minimum is 200, and the maximum is 2,000.
+	public $batchSize;
 
-  const GENDER_NEUTER = 'Neuter';
-  const GENDER_MASCULINE = 'Masculine';
-  const GENDER_FEMININE = 'Feminine';
-
-  const SHARING_MODEL_PRIVATE = 'Private';
-  const SHARING_MODEL_READ = 'Read';
-  const SHARING_MODEL_READWRITE = 'ReadWrite';
-
-  const STARTS_WITH_CONSONANT = 'Consonant';
-  const STARTS_WITH_VOWEL = 'Vowel';
-  const STARTS_WITH_SPECIAL = 'Special';
-
-  const TREAT_BLANKS_AS_BLANK = 'BlankAsBlank';
-  const TREAT_BLANKS_AS_ZERO = 'BlankAsZero';
+	/**
+	 * Constructor
+	 *
+	 * @param int $limit  Batch size
+	 */
+	public function __construct($limit) {
+		$this->batchSize = $limit;
+	}
 }
 ?>

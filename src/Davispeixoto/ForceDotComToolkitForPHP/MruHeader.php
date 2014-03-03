@@ -25,23 +25,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-class SforceFieldTypes {
-  const DEPLOYMENT_STATUS_INDEVELOPMENT = 'InDevelopment';
-  const DEPLOYMENT_STATUS_DEPLOYED = 'Deployed';
+/**
+ * To be used with Create and Update operations.
+ *
+ * @package SalesforceSoapClient
+ */
+class MruHeader {
+	// boolean that Indicates whether to update the list of most recently used items (True) or not (False).
+	public $updateMruFlag;
 
-  const GENDER_NEUTER = 'Neuter';
-  const GENDER_MASCULINE = 'Masculine';
-  const GENDER_FEMININE = 'Feminine';
-
-  const SHARING_MODEL_PRIVATE = 'Private';
-  const SHARING_MODEL_READ = 'Read';
-  const SHARING_MODEL_READWRITE = 'ReadWrite';
-
-  const STARTS_WITH_CONSONANT = 'Consonant';
-  const STARTS_WITH_VOWEL = 'Vowel';
-  const STARTS_WITH_SPECIAL = 'Special';
-
-  const TREAT_BLANKS_AS_BLANK = 'BlankAsBlank';
-  const TREAT_BLANKS_AS_ZERO = 'BlankAsZero';
+	public function __construct($bool) {
+		$this->updateMruFlag = $bool;
+	}
 }
 ?>

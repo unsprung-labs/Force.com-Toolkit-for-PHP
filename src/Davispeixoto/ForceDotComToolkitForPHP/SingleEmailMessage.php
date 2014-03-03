@@ -24,24 +24,56 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+class SingleEmailMessage extends Email {
+	public function __construct() {}
 
-class SforceFieldTypes {
-  const DEPLOYMENT_STATUS_INDEVELOPMENT = 'InDevelopment';
-  const DEPLOYMENT_STATUS_DEPLOYED = 'Deployed';
 
-  const GENDER_NEUTER = 'Neuter';
-  const GENDER_MASCULINE = 'Masculine';
-  const GENDER_FEMININE = 'Feminine';
+	public function setBccAddresses($addresses) {
+		$this->bccAddresses = $addresses;
+	}
+	public $ccAddresses;
 
-  const SHARING_MODEL_PRIVATE = 'Private';
-  const SHARING_MODEL_READ = 'Read';
-  const SHARING_MODEL_READWRITE = 'ReadWrite';
+	public function setCcAddresses($addresses) {
+		$this->ccAddresses = $addresses;
+	}
 
-  const STARTS_WITH_CONSONANT = 'Consonant';
-  const STARTS_WITH_VOWEL = 'Vowel';
-  const STARTS_WITH_SPECIAL = 'Special';
+	public function setCharset($charset) {
+		$this->charset = $charset;
+	}
 
-  const TREAT_BLANKS_AS_BLANK = 'BlankAsBlank';
-  const TREAT_BLANKS_AS_ZERO = 'BlankAsZero';
+	public function setHtmlBody($htmlBody) {
+		$this->htmlBody = $htmlBody;
+	}
+
+	public function setOrgWideEmailAddressId($orgWideEmailAddressId) {
+		$this->orgWideEmailAddressId = $orgWideEmailAddressId;
+	}
+
+	public function setPlainTextBody($plainTextBody) {
+		$this->plainTextBody = $plainTextBody;
+	}
+
+	public function setTargetObjectId($targetObjectId) {
+		$this->targetObjectId = $targetObjectId;
+	}
+
+	public function setTemplateId($templateId) {
+		$this->templateId = $templateId;
+	}
+
+	public function setToAddresses($array) {
+		$this->toAddresses = $array;
+	}
+
+	public function setWhatId($whatId) {
+		$this->whatId = $whatId;
+	}
+
+	public function setFileAttachments($array) {
+		$this->fileAttachments = $array;
+	}
+
+	public function setDocumentAttachments($array) {
+		$this->documentAttachments = $array;
+	}
 }
-?>
