@@ -43,7 +43,7 @@ class SforceSoapClient extends SoapClient {
 			return $response;
 		}
 
-		$dom = new DOMDocument();
+		$dom = new \DOMDocument();
 		$dom->loadXML($response);
 
 		$nodeList = $dom->getElementsByTagName('NewValue');

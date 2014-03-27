@@ -70,7 +70,7 @@ class QueryResult implements Iterator{
 		while ($this->pointer >= count($this->records)) {
 			// Pointer is larger than (current) result set; see if we can fetch more
 			if ($this->done === false) {
-				if ($this->sf === false) throw new Exception("Dependency not met!");
+				if ($this->sf === false) throw new \Exception("Dependency not met!");
 				$response = $this->sf->queryMore($this->queryLocator);
 				$this->records = array_merge($this->records, $response->records); // Append more results
 				$this->done = $response->done;
@@ -81,7 +81,7 @@ class QueryResult implements Iterator{
 		}
 		if (isset($this->records[$this->pointer])) return true;
 
-		throw new Exception("QueryResult has gaps in the record data?");
+		throw new \Exception("QueryResult has gaps in the record data?");
 	}
 }
 ?>
