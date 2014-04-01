@@ -25,7 +25,7 @@
 * POSSIBILITY OF SUCH DAMAGE.
 */
 
-class QueryResult implements Iterator{
+class QueryResult implements \Iterator {
 	public $queryLocator;
 	public $done;
 	public $records;
@@ -34,7 +34,8 @@ class QueryResult implements Iterator{
 	public $pointer; // Current iterator location
 	private $sf; // SOAP Client
 
-	public function __construct($response) {
+	public function __construct($response)
+	{
 		$this->queryLocator = $response->queryLocator;
 		$this->done = $response->done;
 		$this->size = $response->size;
@@ -50,27 +51,47 @@ class QueryResult implements Iterator{
 				if (is_array($response->records)) {
 					foreach ($response->records as $record) {
 						array_push($this->records, $record);
-					};
+					}
 				} else {
 					array_push($this->records, $record);
 				}
 			}
 		}
 	}
-
-	public function setSf(SforceBaseClient $sf) { $this->sf = $sf; } // Dependency Injection
+	
+	// Dependency Injection
+	public function setSf(SforceBaseClient $sf)
+	{
+		$this->sf = $sf;
+	}
 
 	// Basic Iterator implementation functions
-	public function rewind() { $this->pointer = 0; }
-	public function next() { ++$this->pointer; }
-	public function key() { return $this->pointer; }
-	public function current() { return new SObject($this->records[$this->pointer]); }
+	public function rewind() {
+		$this->pointer = 0;
+	}
+	
+	public function next() {
+		++$this->pointer;
+	}
+	
+	public function key()
+	{
+		return $this->pointer;
+	}
+	
+	public function current()
+	{
+		return new SObject($this->records[$this->pointer]);
+	}
 
-	public function valid() {
+	public function valid()
+	{
 		while ($this->pointer >= count($this->records)) {
 			// Pointer is larger than (current) result set; see if we can fetch more
 			if ($this->done === false) {
-				if ($this->sf === false) throw new \Exception("Dependency not met!");
+				if ($this->sf === false) {
+					throw new \Exception("Dependency not met!");
+				}
 				$response = $this->sf->queryMore($this->queryLocator);
 				$this->records = array_merge($this->records, $response->records); // Append more results
 				$this->done = $response->done;
@@ -79,7 +100,10 @@ class QueryResult implements Iterator{
 				return false; // No more records to fetch
 			}
 		}
-		if (isset($this->records[$this->pointer])) return true;
+		
+		if (isset($this->records[$this->pointer])) {
+			return true;
+		}
 
 		throw new \Exception("QueryResult has gaps in the record data?");
 	}

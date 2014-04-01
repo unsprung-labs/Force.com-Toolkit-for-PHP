@@ -30,7 +30,8 @@ class SObject {
 	public $fields;
 	//	public $sobject;
 
-	public function __construct($response=NULL) {
+	public function __construct($response = NULL)
+	{
 		if (!isset($response) && !$response) {
 			return;
 		}
@@ -52,44 +53,30 @@ class SObject {
 
 		if (isset($response->any)) {
 			try {
-				//$this->fields = $this->convertFields($response->any);
-				// If ANY is an object, instantiate another SObject
-				if ($response->any instanceof stdClass) {
+				if ($response->any instanceof \stdClass) {
 					if ($this->isSObject($response->any)) {
 						$anArray = array();
 						$sobject = new SObject($response->any);
 						$anArray[] = $sobject;
 						$this->sobjects = $anArray;
 					} else {
-						// this is for parent to child relationships
 						$this->queryResult = new QueryResult($response->any);
 					}
-
 				} else {
-					// If ANY is an array
 					if (is_array($response->any)) {
-						// Loop through each and perform some action.
 						$anArray = array();
-
-						// Modify the foreach to have $key=>$value
-						// Added on 28th April 2008
-						foreach ($response->any as $key=>$item) {
-							if ($item instanceof stdClass) {
+						foreach ($response->any as $key => $item) {
+							if ($item instanceof \stdClass) {
 								if ($this->isSObject($item)) {
 									$sobject = new SObject($item);
-									// make an associative array instead of a numeric one
 									$anArray[$key] = $sobject;
 								} else {
-									// this is for parent to child relationships
-									//$this->queryResult = new QueryResult($item);
 									if (!isset($this->queryResult)) {
 										$this->queryResult = array();
 									}
 									array_push($this->queryResult, new QueryResult($item));
 								}
 							} else {
-								//$this->fields = $this->convertFields($item);
-
 								if (strpos($item, 'sf:') === false) {
 									$currentXmlValue = sprintf('<sf:%s>%s</sf:%s>', $key, $item, $key);
 								} else {
@@ -105,44 +92,14 @@ class SObject {
 						}
 
 						if (isset($fieldsToConvert)) {
-							// If this line is commented, then the fields becomes a stdclass object and does not have the name variable
-							// In this case the foreach loop on line 252 runs successfuly
 							$this->fields = $this->convertFields($fieldsToConvert);
 						}
 
 						if (sizeof($anArray) > 0) {
-							// To add more variables to the the top level sobject
 							foreach ($anArray as $key=>$children_sobject) {
 								$this->fields->$key = $children_sobject;
 							}
-							//array_push($this->fields, $anArray);
-							// Uncommented on 28th April since all the sobjects have now been moved to the fields
-							//$this->sobjects = $anArray;
 						}
-
-						/*
-						 $this->fields = $this->convertFields($response->any[0]);
-						if (isset($response->any[1]->records)) {
-						$anArray = array();
-						if ($response->any[1]->size == 1) {
-						$records = array (
-								$response->any[1]->records
-						);
-						} else {
-						$records = $response->any[1]->records;
-						}
-						foreach ($records as $record) {
-						$sobject = new SObject($record);
-						array_push($anArray, $sobject);
-						}
-						$this->sobjects = $anArray;
-						} else {
-						$anArray = array();
-						$sobject = new SObject($response->any[1]);
-						array_push($anArray, $sobject);
-						$this->sobjects = $anArray;
-						}
-						*/
 					} else {
 						$this->fields = $this->convertFields($response->any);
 					}
@@ -153,30 +110,36 @@ class SObject {
 		}
 	}
 
-	function __get($name) {	return (isset($this->fields->$name))? $this->fields->$name : false; }
-	function __isset($name) { return isset($this->fields->$name); }
+	public function __get($name)
+	{
+		return (isset($this->fields->$name)) ? $this->fields->$name : false;
+	}
+	
+	public function __isset($name)
+	{
+		return isset($this->fields->$name);
+	}
 
 	/**
 	 * Parse the "any" string from an sObject.  First strip out the sf: and then
 	 * enclose string with <Object></Object>.  Load the string using
 	 * simplexml_load_string and return an array that can be traversed.
 	 */
-	function convertFields($any) {
+	public function convertFields($any)
+	{
 		$str = preg_replace('{sf:}', '', $any);
 
 		$array = $this->xml2array('<Object xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'.$str.'</Object>', 2);
 
 		$xml = new \stdClass();
-		if (!count($array['Object']))
+		if (!count($array['Object'])) {
 			return $xml;
+		}
 
-		foreach ($array['Object'] as $k=>$v) {
+		foreach ($array['Object'] as $k => $v) {
 			$xml->$k = $v;
 		}
 
-		//$new_string = '<Object xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'.$new_string.'</Object>';
-		//$new_string = $new_string;
-		//$xml = simplexml_load_string($new_string);
 		return $xml;
 	}
 
@@ -185,21 +148,25 @@ class SObject {
 	 * @param string $contents
 	 * @return array
 	 */
-	function xml2array($contents, $get_attributes=1) {
-		if(!$contents) return array();
+	public function xml2array($contents, $get_attributes = 1)
+	{
+		if (!$contents) {
+			return array();
+		}
 
 		if(!function_exists('xml_parser_create')) {
-			//print "'xml_parser_create()' function not found!";
 			return array('not found');
 		}
-		//Get the XML parser of PHP - PHP must have this module for the parser to work
+		
 		$parser = xml_parser_create();
 		xml_parser_set_option( $parser, XML_OPTION_CASE_FOLDING, 0 );
 		xml_parser_set_option( $parser, XML_OPTION_SKIP_WHITE, 1 );
 		xml_parse_into_struct( $parser, $contents, $xml_values );
 		xml_parser_free( $parser );
 
-		if(!$xml_values) return;//Hmm...
+		if(!$xml_values) {
+			return;
+		}
 
 		//Initializations
 		$xml_array = array();
@@ -209,7 +176,6 @@ class SObject {
 
 		$current = &$xml_array;
 
-		//Go through the tags.
 		foreach($xml_values as $data) {
 			unset($attributes,$value);//Remove existing values, or there will be trouble
 
@@ -292,14 +258,16 @@ class SObject {
 	/*
 	 * If the stdClass has a done, we know it is a QueryResult
 	*/
-	function isQueryResult($param) {
+	public function isQueryResult($param)
+	{
 		return isset($param->done);
 	}
 
 	/*
 	 * If the stdClass has a type, we know it is an SObject
 	*/
-	function isSObject($param) {
+	public function isSObject($param)
+	{
 		return isset($param->type);
 	}
 }

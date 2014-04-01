@@ -35,10 +35,10 @@
 // string content into the parsed output and loses the tag name. Removing the
 // xsi:type forces PHP SOAP to just leave the tags intact
 class SforceSoapClient extends SoapClient {
-	function __doRequest($request, $location, $action, $version, $one_way=0) {
+	public function __doRequest($request, $location, $action, $version, $one_way = 0)
+	{
 		$response = parent::__doRequest($request, $location, $action, $version, $one_way);
 
-		// Quick check to only parse the XML here if we think we need to
 		if (strpos($response, '<sf:OldValue') === false && strpos($response, '<sf:NewValue') === false) {
 			return $response;
 		}
@@ -47,14 +47,15 @@ class SforceSoapClient extends SoapClient {
 		$dom->loadXML($response);
 
 		$nodeList = $dom->getElementsByTagName('NewValue');
-		foreach ($nodeList as $node) {
+		foreach ($nodeList as $key => $node) {
 			$node->removeAttributeNS('http://www.w3.org/2001/XMLSchema-instance', 'type');
 		}
+		
 		$nodeList = $dom->getElementsByTagName('OldValue');
-		foreach ($nodeList as $node) {
+		foreach ($nodeList as $key => $node) {
 			$node->removeAttributeNS('http://www.w3.org/2001/XMLSchema-instance', 'type');
 		}
-
+		
 		return $dom->saveXML();
 	}
 }

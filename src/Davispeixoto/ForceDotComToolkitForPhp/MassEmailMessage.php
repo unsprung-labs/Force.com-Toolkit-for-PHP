@@ -24,33 +24,17 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+class MassEmailMessage extends Email {
+  public function setTemplateId($templateId) {
+    $this->templateId = $templateId;
+  }
 
-/**
- * To be used with Create and Update operations.
- * Only one attribute can be set at a time.
- *
- * @package SalesforceSoapClient
- */
-class AssignmentRuleHeader {
-	// int
-	public $assignmentRuleId;
-	// boolean
-	public $useDefaultRuleFlag;
+  public function setWhatIds($array) {
+    $this->whatIds = $array;
+  }
 
-	/**
-	 * Constructor.  Only one param can be set.
-	 *
-	 * @param int $id  AssignmentRuleId
-	 * @param boolean $flag  UseDefaultRule flag
-	 */
-	public function __construct($id = NULL, $flag = NULL) {
-		if ($id != NULL) {
-			$this->assignmentRuleId = $id;
-		}
-		
-		if ($flag != NULL) {
-			$this->useDefaultRuleFlag = $flag;
-		}
-	}
+  public function setTargetObjectIds($array) {
+    $this->targetObjectIds = $array;
+  }
 }
 ?>

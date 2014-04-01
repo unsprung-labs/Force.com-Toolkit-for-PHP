@@ -33,13 +33,14 @@
 class SforcePartnerClient extends SforceBaseClient {
   const PARTNER_NAMESPACE = 'urn:partner.soap.sforce.com';
 	
-  function SforcePartnerClient() {
+  function SforcePartnerClient()
+  {
     $this->namespace = self::PARTNER_NAMESPACE;
   }
   
-  protected function getSoapClient($wsdl, $options) {
-    // Workaround an issue in parsing OldValue and NewValue in histories
-		return new SforceSoapClient($wsdl, $options);      
+  protected function getSoapClient($wsdl, $options)
+  {
+    return new SforceSoapClient($wsdl, $options);      
   }
 
   /**
@@ -47,7 +48,8 @@ class SforcePartnerClient extends SforceBaseClient {
    * @param array $sObjects Array of one or more sObjects (up to 200) to create.
    * @return SaveResult
    */
-  public function create($sObjects) {
+  public function create($sObjects)
+  {
     $arg = new \stdClass;
     foreach ($sObjects as $sObject) {
       if (isset ($sObject->fields)) {
@@ -65,7 +67,8 @@ class SforcePartnerClient extends SforceBaseClient {
    * @param String $type
    * @return mixed
    */
-  public function merge($mergeRequest) {
+  public function merge($mergeRequest)
+  {
     if (isset($mergeRequest->masterRecord)) {
       if (isset($mergeRequest->masterRecord->fields)) {
         $mergeRequest->masterRecord->any = $this->_convertToAny($mergeRequest->masterRecord->fields);
@@ -80,7 +83,8 @@ class SforcePartnerClient extends SforceBaseClient {
    * 
    * @param array $request
    */
-  public function sendSingleEmail($request) {
+  public function sendSingleEmail($request)
+  {
     if (is_array($request)) {
       $messages = array();
       foreach ($request as $r) {
@@ -99,7 +103,8 @@ class SforcePartnerClient extends SforceBaseClient {
    *
    * @param array $request
    */
-  public function sendMassEmail($request) {
+  public function sendMassEmail($request)
+  {
     if (is_array($request)) {
       $messages = array();
       foreach ($request as $r) {
@@ -119,7 +124,8 @@ class SforcePartnerClient extends SforceBaseClient {
    * @param array sObjects    Array of sObjects
    * @return UpdateResult
    */
-  public function update($sObjects) {
+  public function update($sObjects)
+  {
     $arg = new \stdClass;
     foreach ($sObjects as $sObject) {
       if (isset($sObject->fields)) {
@@ -140,8 +146,8 @@ class SforcePartnerClient extends SforceBaseClient {
    * @param array  $sObjects  Array of sObjects
    * @return UpsertResult
    */
-  public function upsert($ext_Id, $sObjects) {
-    //		$this->_setSessionHeader();
+  public function upsert($ext_Id, $sObjects)
+  {
     $arg = new \stdClass;
     $arg->externalIDFieldName = new \SoapVar($ext_Id, XSD_STRING, 'string', 'http://www.w3.org/2001/XMLSchema');
     foreach ($sObjects as $sObject) {
@@ -159,7 +165,8 @@ class SforcePartnerClient extends SforceBaseClient {
    * @param array $ids
    * @return string
    */
-  public function retrieve($fieldList, $sObjectType, $ids) {
+  public function retrieve($fieldList, $sObjectType, $ids)
+  {
   	return $this->_retrieveResult(parent::retrieve($fieldList, $sObjectType, $ids));
   }  
 
@@ -168,14 +175,15 @@ class SforcePartnerClient extends SforceBaseClient {
    * @param mixed $response
    * @return array
    */
-  private function _retrieveResult($response) {
+  private function _retrieveResult($response)
+  {
   	$arr = array();
   	if(is_array($response)) {
   		foreach($response as $r) {
   			$sobject = new SObject($r);
   			array_push($arr,$sobject);
-  		};
-  	}else {
+  		}
+  	} else {
   		$sobject = new SObject($response);
         array_push($arr, $sobject);
   	}

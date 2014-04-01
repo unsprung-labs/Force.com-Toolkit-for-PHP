@@ -28,8 +28,8 @@
 class SforceSearchResult {
 	public $searchRecords;
 
-	public function __construct($response) {
-
+	public function __construct($response)
+	{
 		if($response instanceof SforceSearchResult) {
 			$this->searchRecords = $response->searchRecords;
 		} else {
@@ -39,7 +39,7 @@ class SforceSearchResult {
 					foreach ($response->searchRecords as $record) {
 						$sobject = new SObject($record->record);
 						array_push($this->searchRecords, $sobject);
-					};
+					}
 				} else {
 					$sobject = new SObject($response->searchRecords->record);
 					array_push($this->records, $sobject);
