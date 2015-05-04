@@ -30,6 +30,11 @@
      * This file contains one class.
      * @package SalesforceSoapClient
      */
+use SoapClient;
+use SoapHeader;
+use SoapVar;
+use stdClass;
+
 /**
  * SalesforceSoapClient
  * @package SalesforceSoapClient
@@ -60,7 +65,7 @@ class SforceBaseClient
 
     protected function getSoapClient($wsdl, $options)
     {
-        return new \SoapClient($wsdl, $options);
+        return new SoapClient($wsdl, $options);
     }
 
     public function getNamespace()
@@ -107,7 +112,12 @@ class SforceBaseClient
      */
     public function createConnection($wsdl, $proxy = null, $soap_options = array())
     {
+        // We don't need to parse out any subversion suffix - e.g. "-01" since
+        // PHP type conversion will ignore it
         $phpversion = substr(phpversion(), 0, strpos(phpversion(), '-'));
+        if ($phpversion < 5.3) {
+            throw new Exception ('PHP versions older than 5.3 are no longer supported. Please upgrade!');
+        }
 
         $soapClientArray = array_merge(array(
             'user_agent' => 'salesforce-toolkit-php/' . $this->version,
@@ -117,11 +127,6 @@ class SforceBaseClient
             'compression' => SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP
         ), $soap_options);
 
-        // We don't need to parse out any subversion suffix - e.g. "-01" since
-        // PHP type conversion will ignore it
-        if (phpversion() < 5.3) {
-            die("PHP versions older than 5.3 are no longer supported. Please upgrade!");
-        }
 
         if ($proxy != null) {
             $proxySettings = array();
@@ -140,7 +145,7 @@ class SforceBaseClient
     public function setCallOptions($header)
     {
         if ($header != null) {
-            $this->callOptions = new \SoapHeader($this->namespace, 'CallOptions', array(
+            $this->callOptions = new SoapHeader($this->namespace, 'CallOptions', array(
                 'client' => $header->client,
                 'defaultNamespace' => $header->defaultNamespace
             ));
@@ -184,7 +189,7 @@ class SforceBaseClient
     public function logout()
     {
         $this->setHeaders("logout");
-        $arg = new \stdClass();
+        $arg = new stdClass();
 
         return $this->sforce->logout();
     }
@@ -197,7 +202,7 @@ class SforceBaseClient
     public function invalidateSessions()
     {
         $this->setHeaders("invalidateSessions");
-        $arg = new \stdClass();
+        $arg = new stdClass();
         $this->logout();
 
         return $this->sforce->invalidateSessions();
@@ -357,7 +362,7 @@ class SforceBaseClient
     public function setAssignmentRuleHeader($header)
     {
         if ($header != null) {
-            $this->assignmentRuleHeader = new \SoapHeader($this->namespace, 'AssignmentRuleHeader', array(
+            $this->assignmentRuleHeader = new SoapHeader($this->namespace, 'AssignmentRuleHeader', array(
                 'assignmentRuleId' => $header->assignmentRuleId,
                 'useDefaultRule' => $header->useDefaultRuleFlag
             ));
@@ -369,7 +374,7 @@ class SforceBaseClient
     public function setEmailHeader($header)
     {
         if ($header != null) {
-            $this->emailHeader = new \SoapHeader($this->namespace, 'EmailHeader', array(
+            $this->emailHeader = new SoapHeader($this->namespace, 'EmailHeader', array(
                 'triggerAutoResponseEmail' => $header->triggerAutoResponseEmail,
                 'triggerOtherEmail' => $header->triggerOtherEmail,
                 'triggerUserEmail' => $header->triggerUserEmail
@@ -382,7 +387,7 @@ class SforceBaseClient
     public function setLoginScopeHeader($header)
     {
         if ($header != null) {
-            $this->loginScopeHeader = new \SoapHeader($this->namespace, 'LoginScopeHeader', array(
+            $this->loginScopeHeader = new SoapHeader($this->namespace, 'LoginScopeHeader', array(
                 'organizationId' => $header->organizationId,
                 'portalId' => $header->portalId
             ));
@@ -394,7 +399,7 @@ class SforceBaseClient
     public function setMruHeader($header)
     {
         if ($header != null) {
-            $this->mruHeader = new \SoapHeader($this->namespace, 'MruHeader', array(
+            $this->mruHeader = new SoapHeader($this->namespace, 'MruHeader', array(
                 'updateMru' => $header->updateMruFlag
             ));
         } else {
@@ -405,7 +410,7 @@ class SforceBaseClient
     public function setSessionHeader($id)
     {
         if ($id != null) {
-            $this->sessionHeader = new \SoapHeader($this->namespace, 'SessionHeader', array(
+            $this->sessionHeader = new SoapHeader($this->namespace, 'SessionHeader', array(
                 'sessionId' => $id
             ));
             $this->sessionId = $id;
@@ -418,7 +423,7 @@ class SforceBaseClient
     public function setUserTerritoryDeleteHeader($header)
     {
         if ($header != null) {
-            $this->userTerritoryDeleteHeader = new \SoapHeader($this->namespace, 'UserTerritoryDeleteHeader  ', array(
+            $this->userTerritoryDeleteHeader = new SoapHeader($this->namespace, 'UserTerritoryDeleteHeader  ', array(
                 'transferToUserId' => $header->transferToUserId
             ));
         } else {
@@ -429,7 +434,7 @@ class SforceBaseClient
     public function setQueryOptions($header)
     {
         if ($header != null) {
-            $this->queryHeader = new \SoapHeader($this->namespace, 'QueryOptions', array(
+            $this->queryHeader = new SoapHeader($this->namespace, 'QueryOptions', array(
                 'batchSize' => $header->batchSize
             ));
         } else {
@@ -440,7 +445,7 @@ class SforceBaseClient
     public function setAllowFieldTruncationHeader($header)
     {
         if ($header != null) {
-            $this->allowFieldTruncationHeader = new \SoapHeader($this->namespace, 'AllowFieldTruncationHeader', array(
+            $this->allowFieldTruncationHeader = new SoapHeader($this->namespace, 'AllowFieldTruncationHeader', array(
                     'allowFieldTruncation' => $header->allowFieldTruncation
                 )
             );
@@ -452,7 +457,7 @@ class SforceBaseClient
     public function setLocaleOptions($header)
     {
         if ($header != null) {
-            $this->localeOptions = new \SoapHeader($this->namespace, 'LocaleOptions',
+            $this->localeOptions = new SoapHeader($this->namespace, 'LocaleOptions',
                 array(
                     'language' => $header->language
                 )
@@ -478,7 +483,7 @@ class SforceBaseClient
                 );
             }
 
-            $this->packageVersionHeader = new \SoapHeader($this->namespace,
+            $this->packageVersionHeader = new SoapHeader($this->namespace,
                 'PackageVersionHeader',
                 $headerData
             );
@@ -582,16 +587,17 @@ class SforceBaseClient
         if (is_array($request)) {
             $messages = array();
             foreach ($request as $r) {
-                $email = new \SoapVar($r, SOAP_ENC_OBJECT, 'SingleEmailMessage', $this->namespace);
+                $email = new SoapVar($r, SOAP_ENC_OBJECT, 'SingleEmailMessage', $this->namespace);
                 array_push($messages, $email);
             }
-            $arg = new \stdClass();
+            $arg = new stdClass();
             $arg->messages = $messages;
 
             return $this->_sendEmail($arg);
         } else {
             $backtrace = debug_backtrace();
-            die('Please pass in array to this function:  ' . $backtrace[0]['function']);
+            error_log('Please pass in array to this function:  ' . $backtrace[0]['function']);
+            return false;
         }
     }
 
@@ -600,16 +606,17 @@ class SforceBaseClient
         if (is_array($request)) {
             $messages = array();
             foreach ($request as $r) {
-                $email = new \SoapVar($r, SOAP_ENC_OBJECT, 'MassEmailMessage', $this->namespace);
+                $email = new SoapVar($r, SOAP_ENC_OBJECT, 'MassEmailMessage', $this->namespace);
                 array_push($messages, $email);
             }
-            $arg = new \stdClass();
+            $arg = new stdClass();
             $arg->messages = $messages;
 
             return $this->_sendEmail($arg);
         } else {
             $backtrace = debug_backtrace();
-            die('Please pass in array to this function:  ' . $backtrace[0]['function']);
+            error_log('Please pass in array to this function:  ' . $backtrace[0]['function']);
+            return false;
         }
     }
 
@@ -630,7 +637,7 @@ class SforceBaseClient
     public function convertLead($leadConverts)
     {
         $this->setHeaders("convertLead");
-        $arg = new \stdClass();
+        $arg = new stdClass();
         $arg->leadConverts = $leadConverts;
 
         return $this->sforce->convertLead($arg);
@@ -645,7 +652,7 @@ class SforceBaseClient
     public function delete($ids)
     {
         $this->setHeaders("delete");
-        $arg = new \stdClass();
+        $arg = new stdClass();
         $arg->ids = $ids;
 
         return $this->sforce->delete($arg)->result;
@@ -660,7 +667,7 @@ class SforceBaseClient
     public function undelete($ids)
     {
         $this->setHeaders("undelete");
-        $arg = new \stdClass();
+        $arg = new stdClass();
         $arg->ids = $ids;
 
         return $this->sforce->undelete($arg)->result;
@@ -675,7 +682,7 @@ class SforceBaseClient
     public function emptyRecycleBin($ids)
     {
         $this->setHeaders();
-        $arg = new \stdClass();
+        $arg = new stdClass();
         $arg->ids = $ids;
 
         return $this->sforce->emptyRecycleBin($arg)->result;
@@ -691,15 +698,16 @@ class SforceBaseClient
     {
         if (is_array($processRequestArray)) {
             foreach ($processRequestArray as &$process) {
-                $process = new \SoapVar($process, SOAP_ENC_OBJECT, 'ProcessSubmitRequest', $this->namespace);
+                $process = new SoapVar($process, SOAP_ENC_OBJECT, 'ProcessSubmitRequest', $this->namespace);
             }
-            $arg = new \stdClass();
+            $arg = new stdClass();
             $arg->actions = $processRequestArray;
 
             return $this->_process($arg);
         } else {
             $backtrace = debug_backtrace();
-            die('Please pass in array to this function:  ' . $backtrace[0]['function']);
+            error_log('Please pass in array to this function:  ' . $backtrace[0]['function']);
+            return false;
         }
     }
 
@@ -713,15 +721,16 @@ class SforceBaseClient
     {
         if (is_array($processRequestArray)) {
             foreach ($processRequestArray as &$process) {
-                $process = new \SoapVar($process, SOAP_ENC_OBJECT, 'ProcessWorkitemRequest', $this->namespace);
+                $process = new SoapVar($process, SOAP_ENC_OBJECT, 'ProcessWorkitemRequest', $this->namespace);
             }
-            $arg = new \stdClass();
+            $arg = new stdClass();
             $arg->actions = $processRequestArray;
 
             return $this->_process($arg);
         } else {
             $backtrace = debug_backtrace();
-            die('Please pass in array to this function:  ' . $backtrace[0]['function']);
+            error_log('Please pass in array to this function:  ' . $backtrace[0]['function']);
+            return false;
         }
     }
 
@@ -750,8 +759,8 @@ class SforceBaseClient
     public function describeLayout($type, array $recordTypeIds = null)
     {
         $this->setHeaders("describeLayout");
-        $arg = new \stdClass();
-        $arg->sObjectType = new \SoapVar($type, XSD_STRING, 'string', 'http://www.w3.org/2001/XMLSchema');
+        $arg = new stdClass();
+        $arg->sObjectType = new SoapVar($type, XSD_STRING, 'string', 'http://www.w3.org/2001/XMLSchema');
         if (isset($recordTypeIds) && count($recordTypeIds)) {
             $arg->recordTypeIds = $recordTypeIds;
         }
@@ -769,8 +778,8 @@ class SforceBaseClient
     public function describeSObject($type)
     {
         $this->setHeaders("describeSObject");
-        $arg = new \stdClass();
-        $arg->sObjectType = new \SoapVar($type, XSD_STRING, 'string', 'http://www.w3.org/2001/XMLSchema');
+        $arg = new stdClass();
+        $arg->sObjectType = new SoapVar($type, XSD_STRING, 'string', 'http://www.w3.org/2001/XMLSchema');
 
         return $this->sforce->describeSObject($arg)->result;
     }
@@ -813,8 +822,8 @@ class SforceBaseClient
     public function describeDataCategoryGroups($sObjectType)
     {
         $this->setHeaders('describeDataCategoryGroups');
-        $arg = new \stdClass();
-        $arg->sObjectType = new \SoapVar($sObjectType, XSD_STRING, 'string', 'http://www.w3.org/2001/XMLSchema');
+        $arg = new stdClass();
+        $arg->sObjectType = new SoapVar($sObjectType, XSD_STRING, 'string', 'http://www.w3.org/2001/XMLSchema');
 
         return $this->sforce->describeDataCategoryGroups($arg)->result;
     }
@@ -829,9 +838,9 @@ class SforceBaseClient
     public function describeDataCategoryGroupStructures(array $pairs, $topCategoriesOnly)
     {
         $this->setHeaders('describeDataCategoryGroupStructures');
-        $arg = new \stdClass();
+        $arg = new stdClass();
         $arg->pairs = $pairs;
-        $arg->topCategoriesOnly = new \SoapVar($topCategoriesOnly, XSD_BOOLEAN, 'boolean',
+        $arg->topCategoriesOnly = new SoapVar($topCategoriesOnly, XSD_BOOLEAN, 'boolean',
             'http://www.w3.org/2001/XMLSchema');
 
         return $this->sforce->describeDataCategoryGroupStructures($arg)->result;
@@ -849,8 +858,8 @@ class SforceBaseClient
     public function getDeleted($type, $startDate, $endDate)
     {
         $this->setHeaders("getDeleted");
-        $arg = new \stdClass();
-        $arg->sObjectType = new \SoapVar($type, XSD_STRING, 'string', 'http://www.w3.org/2001/XMLSchema');
+        $arg = new stdClass();
+        $arg->sObjectType = new SoapVar($type, XSD_STRING, 'string', 'http://www.w3.org/2001/XMLSchema');
         $arg->startDate = $startDate;
         $arg->endDate = $endDate;
 
@@ -869,8 +878,8 @@ class SforceBaseClient
     public function getUpdated($type, $startDate, $endDate)
     {
         $this->setHeaders("getUpdated");
-        $arg = new \stdClass();
-        $arg->sObjectType = new \SoapVar($type, XSD_STRING, 'string', 'http://www.w3.org/2001/XMLSchema');
+        $arg = new stdClass();
+        $arg->sObjectType = new SoapVar($type, XSD_STRING, 'string', 'http://www.w3.org/2001/XMLSchema');
         $arg->startDate = $startDate;
         $arg->endDate = $endDate;
 
@@ -906,7 +915,7 @@ class SforceBaseClient
     public function queryMore($queryLocator)
     {
         $this->setHeaders("queryMore");
-        $arg = new \stdClass();
+        $arg = new stdClass();
         $arg->queryLocator = $queryLocator;
         $raw = $this->sforce->queryMore($arg)->result;
         $QueryResult = new QueryResult($raw);
@@ -944,9 +953,9 @@ class SforceBaseClient
     public function retrieve($fieldList, $sObjectType, $ids)
     {
         $this->setHeaders("retrieve");
-        $arg = new \stdClass();
+        $arg = new stdClass();
         $arg->fieldList = $fieldList;
-        $arg->sObjectType = new \SoapVar($sObjectType, XSD_STRING, 'string', 'http://www.w3.org/2001/XMLSchema');
+        $arg->sObjectType = new SoapVar($sObjectType, XSD_STRING, 'string', 'http://www.w3.org/2001/XMLSchema');
         $arg->ids = $ids;
 
         return $this->sforce->retrieve($arg)->result;
@@ -961,8 +970,8 @@ class SforceBaseClient
     public function search($searchString)
     {
         $this->setHeaders("search");
-        $arg = new \stdClass();
-        $arg->searchString = new \SoapVar($searchString, XSD_STRING, 'string', 'http://www.w3.org/2001/XMLSchema');
+        $arg = new stdClass();
+        $arg->searchString = new SoapVar($searchString, XSD_STRING, 'string', 'http://www.w3.org/2001/XMLSchema');
 
         return new SforceSearchResult($this->sforce->search($arg)->result);
     }
@@ -995,8 +1004,8 @@ class SforceBaseClient
     public function setPassword($userId, $password)
     {
         $this->setHeaders("setPassword");
-        $arg = new \stdClass();
-        $arg->userId = new \SoapVar($userId, XSD_STRING, 'string', 'http://www.w3.org/2001/XMLSchema');
+        $arg = new stdClass();
+        $arg->userId = new SoapVar($userId, XSD_STRING, 'string', 'http://www.w3.org/2001/XMLSchema');
         $arg->password = $password;
 
         return $this->sforce->setPassword($arg);
@@ -1011,8 +1020,8 @@ class SforceBaseClient
     public function resetPassword($userId)
     {
         $this->setHeaders("resetPassword");
-        $arg = new \stdClass();
-        $arg->userId = new \SoapVar($userId, XSD_STRING, 'string', 'http://www.w3.org/2001/XMLSchema');
+        $arg = new stdClass();
+        $arg->userId = new SoapVar($userId, XSD_STRING, 'string', 'http://www.w3.org/2001/XMLSchema');
 
         return $this->sforce->resetPassword($arg)->result;
     }

@@ -26,6 +26,9 @@
 * POSSIBILITY OF SUCH DAMAGE.
 */
 
+use Exception;
+use stdClass;
+
 class SObject
 {
     public $type;
@@ -56,7 +59,7 @@ class SObject
 
         if (isset($response->any)) {
             try {
-                if ($response->any instanceof \stdClass) {
+                if ($response->any instanceof stdClass) {
                     if ($this->isSObject($response->any)) {
                         $anArray = array();
                         $sobject = new SObject($response->any);
@@ -69,7 +72,7 @@ class SObject
                     if (is_array($response->any)) {
                         $anArray = array();
                         foreach ($response->any as $key => $item) {
-                            if ($item instanceof \stdClass) {
+                            if ($item instanceof stdClass) {
                                 if ($this->isSObject($item)) {
                                     $sobject = new SObject($item);
                                     $anArray[$key] = $sobject;
@@ -108,7 +111,8 @@ class SObject
                     }
                 }
             } catch (Exception $e) {
-                var_dump('exception: ', $e);
+                error_log('salesforce exception: ', $e->getMessage());
+                error_log('salesforce exception: ', $e->getTraceAsString());
             }
         }
     }
@@ -135,7 +139,7 @@ class SObject
         $array = $this->xml2array('<Object xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' . $str . '</Object>',
             2);
 
-        $xml = new \stdClass();
+        $xml = new stdClass();
         if (!count($array['Object'])) {
             return $xml;
         }
@@ -229,7 +233,7 @@ class SObject
             if ($type == "open") {//The starting of the tag '<tag>'
                 $parent[$level - 1] = &$current;
 
-                if (!is_array($current) or (!in_array($tag, array_keys($current)))) { //Insert New tag
+                if (!is_array($current) || (!in_array($tag, array_keys($current)))) { //Insert New tag
                     $current[$tag] = $result;
                     $current = &$current[$tag];
 
@@ -249,8 +253,8 @@ class SObject
                     $current[$tag] = $result;
 
                 } else { //If taken, put all things inside a list(array)
-                    if ((is_array($current[$tag]) and $get_attributes == 0)//If it is already an array...
-                        or (isset($current[$tag][0]) and is_array($current[$tag][0]) and ($get_attributes == 1 || $get_attributes == 2))
+                    if ((is_array($current[$tag]) && $get_attributes == 0)//If it is already an array...
+                        || (isset($current[$tag][0]) && is_array($current[$tag][0]) && ($get_attributes == 1 || $get_attributes == 2))
                     ) {
                         array_push($current[$tag], $result); // ...push the new element into that array.
                     } else { //If it is not an array...

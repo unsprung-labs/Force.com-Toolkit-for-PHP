@@ -25,6 +25,7 @@
      * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
      * POSSIBILITY OF SUCH DAMAGE.
      */
+use stdClass;
 
 /**
  * SforcePartnerClient class.
@@ -52,7 +53,7 @@ class SforcePartnerClient extends SforceBaseClient
      */
     public function create($sObjects)
     {
-        $arg = new \stdClass;
+        $arg = new stdClass;
         foreach ($sObjects as $sObject) {
             if (isset ($sObject->fields)) {
                 $sObject->any = $this->_convertToAny($sObject->fields);
@@ -76,7 +77,7 @@ class SforcePartnerClient extends SforceBaseClient
             if (isset($mergeRequest->masterRecord->fields)) {
                 $mergeRequest->masterRecord->any = $this->_convertToAny($mergeRequest->masterRecord->fields);
             }
-            //return parent::merge($mergeRequest, $type);
+            $arg = new stdClass();
             $arg->request = $mergeRequest;
 
             return $this->_merge($arg);
@@ -100,7 +101,8 @@ class SforcePartnerClient extends SforceBaseClient
             return parent::_sendEmail($arg);
         } else {
             $backtrace = debug_backtrace();
-            die('Please pass in array to this function:  ' . $backtrace[0]['function']);
+            error_log('Please pass in array to this function:  ' . $backtrace[0]['function']);
+            return false;
         }
     }
 
@@ -110,6 +112,7 @@ class SforcePartnerClient extends SforceBaseClient
      */
     public function sendMassEmail($request)
     {
+        $arg = new stdClass();
         if (is_array($request)) {
             $messages = array();
             foreach ($request as $r) {
@@ -121,7 +124,8 @@ class SforcePartnerClient extends SforceBaseClient
             return parent::_sendEmail($arg);
         } else {
             $backtrace = debug_backtrace();
-            die('Please pass in array to this function:  ' . $backtrace[0]['function']);
+            error_log('Please pass in array to this function:  ' . $backtrace[0]['function']);
+            return false;
         }
     }
 
@@ -132,7 +136,7 @@ class SforcePartnerClient extends SforceBaseClient
      */
     public function update($sObjects)
     {
-        $arg = new \stdClass;
+        $arg = new stdClass;
         foreach ($sObjects as $sObject) {
             if (isset($sObject->fields)) {
                 $sObject->any = $this->_convertToAny($sObject->fields);
@@ -155,7 +159,7 @@ class SforcePartnerClient extends SforceBaseClient
      */
     public function upsert($ext_Id, $sObjects)
     {
-        $arg = new \stdClass;
+        $arg = new stdClass;
         $arg->externalIDFieldName = new \SoapVar($ext_Id, XSD_STRING, 'string', 'http://www.w3.org/2001/XMLSchema');
         foreach ($sObjects as $sObject) {
             if (isset ($sObject->fields)) {

@@ -23,4 +23,3 @@ About the fixes:
 - I've just removed all unused code from composer point of view. I've ported all classes into src folder, and kept all of them into a separated file (there was some files with multiple classes).
 - I've formatted code into PSR-1/PSR-2 format
 - I've changed some methods signatures, changing their type, like from **date** to **string**, in order to give them the proper type according to current usage. I've not added/removed parameters from phpdoc signatures, despite the high amount of errors.
-- I've added a backslash for some classes calls such as SoapClient, as needed by PSR context loading.
