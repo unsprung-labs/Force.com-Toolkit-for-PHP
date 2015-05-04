@@ -1,4 +1,5 @@
 <?php namespace Davispeixoto\ForceDotComToolkitForPhp;
+
 /*
  * Copyright (c) 2007, salesforce.com, inc.
  * All rights reserved.
@@ -24,10 +25,12 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-class ProxySettings {
-  public $host;
-  public $port;
-  public $login;
-  public $password;
+class ProxySettings
+{
+    public $host;
+    public $port;
+    public $login;
+    public $password;
 }
+
 ?>

@@ -1,4 +1,5 @@
 <?php namespace Davispeixoto\ForceDotComToolkitForPhp;
+
 /*
  * Copyright (c) 2007, salesforce.com, inc.
  * All rights reserved.
@@ -25,15 +26,21 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-class EmailHeader {
-	public $triggerAutoResponseEmail;
-	public $triggerOtherEmail;
-	public $triggerUserEmail;
+class EmailHeader
+{
+    public $triggerAutoResponseEmail;
+    public $triggerOtherEmail;
+    public $triggerUserEmail;
 
-	public function __construct($triggerAutoResponseEmail = false, $triggerOtherEmail = false, $triggerUserEmail = false) {
-		$this->triggerAutoResponseEmail = $triggerAutoResponseEmail;
-		$this->triggerOtherEmail = $triggerOtherEmail;
-		$this->triggerUserEmail = $triggerUserEmail;
-	}
+    public function __construct(
+        $triggerAutoResponseEmail = false,
+        $triggerOtherEmail = false,
+        $triggerUserEmail = false
+    ) {
+        $this->triggerAutoResponseEmail = $triggerAutoResponseEmail;
+        $this->triggerOtherEmail = $triggerOtherEmail;
+        $this->triggerUserEmail = $triggerUserEmail;
+    }
 }
+
 ?>

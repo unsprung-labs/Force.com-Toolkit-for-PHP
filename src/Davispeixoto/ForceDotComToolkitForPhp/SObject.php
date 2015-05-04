@@ -1,4 +1,5 @@
 <?php namespace Davispeixoto\ForceDotComToolkitForPhp;
+
 /*
  * Copyright (c) 2007, salesforce.com, inc.
 * All rights reserved.
@@ -25,251 +26,264 @@
 * POSSIBILITY OF SUCH DAMAGE.
 */
 
-class SObject {
-	public $type;
-	public $fields;
-	//	public $sobject;
+class SObject
+{
+    public $type;
+    public $fields;
 
-	public function __construct($response = NULL)
-	{
-		if (!isset($response) && !$response) {
-			return;
-		}
+    //	public $sobject;
 
-		foreach ($response as $responseKey => $responseValue) {
-			if (in_array($responseKey, array('Id', 'type', 'any'))) {
-				continue;
-			}
-			$this->$responseKey = $responseValue;
-		}
+    public function __construct($response = null)
+    {
+        if (!isset($response) && !$response) {
+            return;
+        }
 
-		if (isset($response->Id)) {
-			$this->Id = is_array($response->Id) ? $response->Id[0] : $response->Id;
-		}
+        foreach ($response as $responseKey => $responseValue) {
+            if (in_array($responseKey, array('Id', 'type', 'any'))) {
+                continue;
+            }
+            $this->$responseKey = $responseValue;
+        }
 
-		if (isset($response->type)) {
-			$this->type = $response->type;
-		}
+        if (isset($response->Id)) {
+            $this->Id = is_array($response->Id) ? $response->Id[0] : $response->Id;
+        }
 
-		if (isset($response->any)) {
-			try {
-				if ($response->any instanceof \stdClass) {
-					if ($this->isSObject($response->any)) {
-						$anArray = array();
-						$sobject = new SObject($response->any);
-						$anArray[] = $sobject;
-						$this->sobjects = $anArray;
-					} else {
-						$this->queryResult = new QueryResult($response->any);
-					}
-				} else {
-					if (is_array($response->any)) {
-						$anArray = array();
-						foreach ($response->any as $key => $item) {
-							if ($item instanceof \stdClass) {
-								if ($this->isSObject($item)) {
-									$sobject = new SObject($item);
-									$anArray[$key] = $sobject;
-								} else {
-									if (!isset($this->queryResult)) {
-										$this->queryResult = array();
-									}
-									array_push($this->queryResult, new QueryResult($item));
-								}
-							} else {
-								if (strpos($item, 'sf:') === false) {
-									$currentXmlValue = sprintf('<sf:%s>%s</sf:%s>', $key, $item, $key);
-								} else {
-									$currentXmlValue = $item;
-								}
+        if (isset($response->type)) {
+            $this->type = $response->type;
+        }
 
-								if (!isset($fieldsToConvert)) {
-									$fieldsToConvert = $currentXmlValue;
-								} else {
-									$fieldsToConvert .= $currentXmlValue;
-								}
-							}
-						}
+        if (isset($response->any)) {
+            try {
+                if ($response->any instanceof \stdClass) {
+                    if ($this->isSObject($response->any)) {
+                        $anArray = array();
+                        $sobject = new SObject($response->any);
+                        $anArray[] = $sobject;
+                        $this->sobjects = $anArray;
+                    } else {
+                        $this->queryResult = new QueryResult($response->any);
+                    }
+                } else {
+                    if (is_array($response->any)) {
+                        $anArray = array();
+                        foreach ($response->any as $key => $item) {
+                            if ($item instanceof \stdClass) {
+                                if ($this->isSObject($item)) {
+                                    $sobject = new SObject($item);
+                                    $anArray[$key] = $sobject;
+                                } else {
+                                    if (!isset($this->queryResult)) {
+                                        $this->queryResult = array();
+                                    }
+                                    array_push($this->queryResult, new QueryResult($item));
+                                }
+                            } else {
+                                if (strpos($item, 'sf:') === false) {
+                                    $currentXmlValue = sprintf('<sf:%s>%s</sf:%s>', $key, $item, $key);
+                                } else {
+                                    $currentXmlValue = $item;
+                                }
 
-						if (isset($fieldsToConvert)) {
-							$this->fields = $this->convertFields($fieldsToConvert);
-						}
+                                if (!isset($fieldsToConvert)) {
+                                    $fieldsToConvert = $currentXmlValue;
+                                } else {
+                                    $fieldsToConvert .= $currentXmlValue;
+                                }
+                            }
+                        }
 
-						if (sizeof($anArray) > 0) {
-							foreach ($anArray as $key=>$children_sobject) {
-								$this->fields->$key = $children_sobject;
-							}
-						}
-					} else {
-						$this->fields = $this->convertFields($response->any);
-					}
-				}
-			} catch (Exception $e) {
-				var_dump('exception: ', $e);
-			}
-		}
-	}
+                        if (isset($fieldsToConvert)) {
+                            $this->fields = $this->convertFields($fieldsToConvert);
+                        }
 
-	public function __get($name)
-	{
-		return (isset($this->fields->$name)) ? $this->fields->$name : false;
-	}
-	
-	public function __isset($name)
-	{
-		return isset($this->fields->$name);
-	}
+                        if (sizeof($anArray) > 0) {
+                            foreach ($anArray as $key => $children_sobject) {
+                                $this->fields->$key = $children_sobject;
+                            }
+                        }
+                    } else {
+                        $this->fields = $this->convertFields($response->any);
+                    }
+                }
+            } catch (Exception $e) {
+                var_dump('exception: ', $e);
+            }
+        }
+    }
 
-	/**
-	 * Parse the "any" string from an sObject.  First strip out the sf: and then
-	 * enclose string with <Object></Object>.  Load the string using
-	 * simplexml_load_string and return an array that can be traversed.
-	 */
-	public function convertFields($any)
-	{
-		$str = preg_replace('{sf:}', '', $any);
+    public function __get($name)
+    {
+        return (isset($this->fields->$name)) ? $this->fields->$name : false;
+    }
 
-		$array = $this->xml2array('<Object xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'.$str.'</Object>', 2);
+    public function __isset($name)
+    {
+        return isset($this->fields->$name);
+    }
 
-		$xml = new \stdClass();
-		if (!count($array['Object'])) {
-			return $xml;
-		}
+    /**
+     * Parse the "any" string from an sObject.  First strip out the sf: and then
+     * enclose string with <Object></Object>.  Load the string using
+     * simplexml_load_string and return an array that can be traversed.
+     */
+    public function convertFields($any)
+    {
+        $str = preg_replace('{sf:}', '', $any);
 
-		foreach ($array['Object'] as $k => $v) {
-			$xml->$k = $v;
-		}
+        $array = $this->xml2array('<Object xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' . $str . '</Object>',
+            2);
 
-		return $xml;
-	}
+        $xml = new \stdClass();
+        if (!count($array['Object'])) {
+            return $xml;
+        }
 
-	/**
-	 *
-	 * @param string $contents
-	 * @return array
-	 */
-	public function xml2array($contents, $get_attributes = 1)
-	{
-		if (!$contents) {
-			return array();
-		}
+        foreach ($array['Object'] as $k => $v) {
+            $xml->$k = $v;
+        }
 
-		if(!function_exists('xml_parser_create')) {
-			return array('not found');
-		}
-		
-		$parser = xml_parser_create();
-		xml_parser_set_option( $parser, XML_OPTION_CASE_FOLDING, 0 );
-		xml_parser_set_option( $parser, XML_OPTION_SKIP_WHITE, 1 );
-		xml_parse_into_struct( $parser, $contents, $xml_values );
-		xml_parser_free( $parser );
+        return $xml;
+    }
 
-		if(!$xml_values) {
-			return;
-		}
+    /**
+     *
+     * @param string $contents
+     * @return array
+     */
+    public function xml2array($contents, $get_attributes = 1)
+    {
+        if (!$contents) {
+            return array();
+        }
 
-		//Initializations
-		$xml_array = array();
-		$parents = array();
-		$opened_tags = array();
-		$arr = array();
+        if (!function_exists('xml_parser_create')) {
+            return array('not found');
+        }
 
-		$current = &$xml_array;
+        $parser = xml_parser_create();
+        xml_parser_set_option($parser, XML_OPTION_CASE_FOLDING, 0);
+        xml_parser_set_option($parser, XML_OPTION_SKIP_WHITE, 1);
+        xml_parse_into_struct($parser, $contents, $xml_values);
+        xml_parser_free($parser);
 
-		foreach($xml_values as $data) {
-			unset($attributes,$value);//Remove existing values, or there will be trouble
+        if (!$xml_values) {
+            return;
+        }
 
-			//This command will extract these variables into the foreach scope
-			// tag(string), type(string), level(int), attributes(array).
-			extract($data);//We could use the array by itself, but this cooler.
+        //Initializations
+        $xml_array = array();
+        $parents = array();
+        $opened_tags = array();
+        $arr = array();
 
-			$result = '';
-			if ($get_attributes) {
-				switch ($get_attributes) {
-					case 1:
-						$result = array();
-						if(isset($value)) $result['value'] = $value;
+        $current = &$xml_array;
 
-						//Set the attributes too.
-						if(isset($attributes)) {
-							foreach($attributes as $attr => $val) {
-								if($get_attributes == 1) $result['attr'][$attr] = $val; //Set all the attributes in a array called 'attr'
-								/**  :TODO: should we change the key name to '_attr'? Someone may use the tagname 'attr'. Same goes for 'value' too */
-							}
-						}
-						break;
+        foreach ($xml_values as $data) {
+            unset($attributes, $value);//Remove existing values, or there will be trouble
 
-					case 2:
-						$result = array();
-						if (isset($value)) {
-							$result = $value;
-						}
+            //This command will extract these variables into the foreach scope
+            // tag(string), type(string), level(int), attributes(array).
+            extract($data);//We could use the array by itself, but this cooler.
 
-						//Check for nil and ignore other attributes.
-						if (isset($attributes) && isset($attributes['xsi:nil']) && !strcasecmp($attributes['xsi:nil'], 'true')) {
-							$result = null;
-						}
-						break;
-				}
-			} elseif (isset($value)) {
-				$result = $value;
-			}
+            $result = '';
+            if ($get_attributes) {
+                switch ($get_attributes) {
+                    case 1:
+                        $result = array();
+                        if (isset($value)) {
+                            $result['value'] = $value;
+                        }
 
-			//See tag status and do the needed.
-			if($type == "open") {//The starting of the tag '<tag>'
-				$parent[$level-1] = &$current;
+                        //Set the attributes too.
+                        if (isset($attributes)) {
+                            foreach ($attributes as $attr => $val) {
+                                if ($get_attributes == 1) {
+                                    $result['attr'][$attr] = $val;
+                                } //Set all the attributes in a array called 'attr'
+                                /**  :TODO: should we change the key name to '_attr'? Someone may use the tagname 'attr'. Same goes for 'value' too */
+                            }
+                        }
+                        break;
 
-				if(!is_array($current) or (!in_array($tag, array_keys($current)))) { //Insert New tag
-					$current[$tag] = $result;
-					$current = &$current[$tag];
+                    case 2:
+                        $result = array();
+                        if (isset($value)) {
+                            $result = $value;
+                        }
 
-				} else { //There was another element with the same tag name
-					if(isset($current[$tag][0])) {
-						array_push($current[$tag], $result);
-					} else {
-						$current[$tag] = array($current[$tag],$result);
-					}
-					$last = count($current[$tag]) - 1;
-					$current = &$current[$tag][$last];
-				}
+                        //Check for nil and ignore other attributes.
+                        if (isset($attributes) && isset($attributes['xsi:nil']) && !strcasecmp($attributes['xsi:nil'],
+                                'true')
+                        ) {
+                            $result = null;
+                        }
+                        break;
+                }
+            } elseif (isset($value)) {
+                $result = $value;
+            }
 
-			} elseif($type == "complete") { //Tags that ends in 1 line '<tag />'
-				//See if the key is already taken.
-				if(!isset($current[$tag])) { //New Key
-					$current[$tag] = $result;
+            //See tag status and do the needed.
+            if ($type == "open") {//The starting of the tag '<tag>'
+                $parent[$level - 1] = &$current;
 
-				} else { //If taken, put all things inside a list(array)
-					if((is_array($current[$tag]) and $get_attributes == 0)//If it is already an array...
-							or (isset($current[$tag][0]) and is_array($current[$tag][0]) and ($get_attributes == 1 || $get_attributes == 2))) {
-						array_push($current[$tag],$result); // ...push the new element into that array.
-					} else { //If it is not an array...
-						$current[$tag] = array($current[$tag],$result); //...Make it an array using using the existing value and the new value
-					}
-				}
+                if (!is_array($current) or (!in_array($tag, array_keys($current)))) { //Insert New tag
+                    $current[$tag] = $result;
+                    $current = &$current[$tag];
 
-			} elseif($type == 'close') { //End of tag '</tag>'
-				$current = &$parent[$level-1];
-			}
-		}
+                } else { //There was another element with the same tag name
+                    if (isset($current[$tag][0])) {
+                        array_push($current[$tag], $result);
+                    } else {
+                        $current[$tag] = array($current[$tag], $result);
+                    }
+                    $last = count($current[$tag]) - 1;
+                    $current = &$current[$tag][$last];
+                }
 
-		return($xml_array);
-	}
+            } elseif ($type == "complete") { //Tags that ends in 1 line '<tag />'
+                //See if the key is already taken.
+                if (!isset($current[$tag])) { //New Key
+                    $current[$tag] = $result;
 
-	/*
-	 * If the stdClass has a done, we know it is a QueryResult
-	*/
-	public function isQueryResult($param)
-	{
-		return isset($param->done);
-	}
+                } else { //If taken, put all things inside a list(array)
+                    if ((is_array($current[$tag]) and $get_attributes == 0)//If it is already an array...
+                        or (isset($current[$tag][0]) and is_array($current[$tag][0]) and ($get_attributes == 1 || $get_attributes == 2))
+                    ) {
+                        array_push($current[$tag], $result); // ...push the new element into that array.
+                    } else { //If it is not an array...
+                        $current[$tag] = array(
+                            $current[$tag],
+                            $result
+                        ); //...Make it an array using using the existing value and the new value
+                    }
+                }
 
-	/*
-	 * If the stdClass has a type, we know it is an SObject
-	*/
-	public function isSObject($param)
-	{
-		return isset($param->type);
-	}
+            } elseif ($type == 'close') { //End of tag '</tag>'
+                $current = &$parent[$level - 1];
+            }
+        }
+
+        return ($xml_array);
+    }
+
+    /*
+     * If the stdClass has a done, we know it is a QueryResult
+    */
+    public function isQueryResult($param)
+    {
+        return isset($param->done);
+    }
+
+    /*
+     * If the stdClass has a type, we know it is an SObject
+    */
+    public function isSObject($param)
+    {
+        return isset($param->type);
+    }
 }
 
 ?>

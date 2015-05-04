@@ -1,4 +1,5 @@
 <?php namespace Davispeixoto\ForceDotComToolkitForPhp;
+
 /*
  * Copyright (c) 2007, salesforce.com, inc.
  * All rights reserved.
@@ -25,7 +26,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-class ProcessSubmitRequest extends ProcessRequest {
-	public $objectId;
+class ProcessSubmitRequest extends ProcessRequest
+{
+    public $objectId;
 }
+
 ?>

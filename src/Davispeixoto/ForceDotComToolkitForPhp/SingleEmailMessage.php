@@ -1,4 +1,5 @@
 <?php namespace Davispeixoto\ForceDotComToolkitForPhp;
+
 /*
  * Copyright (c) 2007, salesforce.com, inc.
  * All rights reserved.
@@ -24,71 +25,72 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-class SingleEmailMessage extends Email {
-	public $ccAddresses;
-	
-	public function __construct()
-	{
-		
-	}
-	
-	public function setBccAddresses($addresses)
-	{
-		$this->bccAddresses = $addresses;
-	}
-	
-	public function setCcAddresses($addresses)
-	{
-		$this->ccAddresses = $addresses;
-	}
+class SingleEmailMessage extends Email
+{
+    public $ccAddresses;
 
-	public function setCharset($charset)
-	{
-		$this->charset = $charset;
-	}
+    public function __construct()
+    {
 
-	public function setHtmlBody($htmlBody)
-	{
-		$this->htmlBody = $htmlBody;
-	}
+    }
 
-	public function setOrgWideEmailAddressId($orgWideEmailAddressId)
-	{
-		$this->orgWideEmailAddressId = $orgWideEmailAddressId;
-	}
+    public function setBccAddresses($addresses)
+    {
+        $this->bccAddresses = $addresses;
+    }
 
-	public function setPlainTextBody($plainTextBody)
-	{
-		$this->plainTextBody = $plainTextBody;
-	}
+    public function setCcAddresses($addresses)
+    {
+        $this->ccAddresses = $addresses;
+    }
 
-	public function setTargetObjectId($targetObjectId)
-	{
-		$this->targetObjectId = $targetObjectId;
-	}
+    public function setCharset($charset)
+    {
+        $this->charset = $charset;
+    }
 
-	public function setTemplateId($templateId)
-	{
-		$this->templateId = $templateId;
-	}
+    public function setHtmlBody($htmlBody)
+    {
+        $this->htmlBody = $htmlBody;
+    }
 
-	public function setToAddresses($array)
-	{
-		$this->toAddresses = $array;
-	}
+    public function setOrgWideEmailAddressId($orgWideEmailAddressId)
+    {
+        $this->orgWideEmailAddressId = $orgWideEmailAddressId;
+    }
 
-	public function setWhatId($whatId)
-	{
-		$this->whatId = $whatId;
-	}
+    public function setPlainTextBody($plainTextBody)
+    {
+        $this->plainTextBody = $plainTextBody;
+    }
 
-	public function setFileAttachments($array)
-	{
-		$this->fileAttachments = $array;
-	}
+    public function setTargetObjectId($targetObjectId)
+    {
+        $this->targetObjectId = $targetObjectId;
+    }
 
-	public function setDocumentAttachments($array)
-	{
-		$this->documentAttachments = $array;
-	}
+    public function setTemplateId($templateId)
+    {
+        $this->templateId = $templateId;
+    }
+
+    public function setToAddresses($array)
+    {
+        $this->toAddresses = $array;
+    }
+
+    public function setWhatId($whatId)
+    {
+        $this->whatId = $whatId;
+    }
+
+    public function setFileAttachments($array)
+    {
+        $this->fileAttachments = $array;
+    }
+
+    public function setDocumentAttachments($array)
+    {
+        $this->documentAttachments = $array;
+    }
 }

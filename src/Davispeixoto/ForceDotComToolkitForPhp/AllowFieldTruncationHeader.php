@@ -1,4 +1,5 @@
 <?php namespace Davispeixoto\ForceDotComToolkitForPhp;
+
 /*
  * Copyright (c) 2007, salesforce.com, inc.
  * All rights reserved.
@@ -25,10 +26,12 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-class AllowFieldTruncationHeader {
+class AllowFieldTruncationHeader
+{
     public $allowFieldTruncation;
-    
-    public function __construct($allowFieldTruncation) {
+
+    public function __construct($allowFieldTruncation)
+    {
         $this->allowFieldTruncation = $allowFieldTruncation;
     }
 }

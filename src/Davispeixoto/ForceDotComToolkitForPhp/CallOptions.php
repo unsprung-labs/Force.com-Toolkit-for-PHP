@@ -1,4 +1,5 @@
 <?php namespace Davispeixoto\ForceDotComToolkitForPhp;
+
 /*
  * Copyright (c) 2007, salesforce.com, inc.
  * All rights reserved.
@@ -25,13 +26,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-class CallOptions {
-	public $client;
-	public $defaultNamespace;
+class CallOptions
+{
+    public $client;
+    public $defaultNamespace;
 
-	public function __construct($client, $defaultNamespace = NULL) {
-		$this->client = $client;
-		$this->defaultNamespace = $defaultNamespace;
-	}
+    public function __construct($client, $defaultNamespace = null)
+    {
+        $this->client = $client;
+        $this->defaultNamespace = $defaultNamespace;
+    }
 }
+
 ?>

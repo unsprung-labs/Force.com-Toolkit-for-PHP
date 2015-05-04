@@ -1,4 +1,5 @@
 <?php namespace Davispeixoto\ForceDotComToolkitForPhp;
+
 /*
  * Copyright (c) 2007, salesforce.com, inc.
  * All rights reserved.
@@ -24,17 +25,22 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-class MassEmailMessage extends Email {
-  public function setTemplateId($templateId) {
-    $this->templateId = $templateId;
-  }
+class MassEmailMessage extends Email
+{
+    public function setTemplateId($templateId)
+    {
+        $this->templateId = $templateId;
+    }
 
-  public function setWhatIds($array) {
-    $this->whatIds = $array;
-  }
+    public function setWhatIds($array)
+    {
+        $this->whatIds = $array;
+    }
 
-  public function setTargetObjectIds($array) {
-    $this->targetObjectIds = $array;
-  }
+    public function setTargetObjectIds($array)
+    {
+        $this->targetObjectIds = $array;
+    }
 }
+
 ?>

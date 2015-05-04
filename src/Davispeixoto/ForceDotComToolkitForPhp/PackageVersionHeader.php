@@ -1,4 +1,5 @@
 <?php namespace Davispeixoto\ForceDotComToolkitForPhp;
+
 /*
  * Copyright (c) 2007, salesforce.com, inc.
  * All rights reserved.
@@ -25,19 +26,21 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-class PackageVersionHeader {
+class PackageVersionHeader
+{
     /**
      * @var array $packageVersions
      */
     public $packageVersions;
-    
+
     /**
      * Class constructor.
-     * 
+     *
      * @param array $packageVersions
      * @return void
      */
-    public function __construct($packageVersions) {
+    public function __construct($packageVersions)
+    {
         $this->packageVersions = $packageVersions;
     }
 }

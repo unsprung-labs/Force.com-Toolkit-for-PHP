@@ -1,4 +1,5 @@
 <?php namespace Davispeixoto\ForceDotComToolkitForPhp;
+
 /*
  * Copyright (c) 2007, salesforce.com, inc.
  * All rights reserved.
@@ -26,16 +27,18 @@
  */
 
 
-class LocaleOptions {
+class LocaleOptions
+{
     public $language;
-    
+
     /**
      * Class constructor.
-     * 
+     *
      * @param string $language
      * @return void
      */
-    public function __construct($language) {
+    public function __construct($language)
+    {
         $this->language = $language;
     }
 }

@@ -1,4 +1,5 @@
 <?php namespace Davispeixoto\ForceDotComToolkitForPhp;
+
 /*
  * Copyright (c) 2007, salesforce.com, inc.
  * All rights reserved.
@@ -25,11 +26,14 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-class UserTerritoryDeleteHeader {
-	public $transferToUserId;
+class UserTerritoryDeleteHeader
+{
+    public $transferToUserId;
 
-	public function __construct($transferToUserId) {
-		$this->transferToUserId = $transferToUserId;
-	}
+    public function __construct($transferToUserId)
+    {
+        $this->transferToUserId = $transferToUserId;
+    }
 }
+
 ?>

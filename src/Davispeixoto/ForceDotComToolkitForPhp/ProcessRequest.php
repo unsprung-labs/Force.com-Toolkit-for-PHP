@@ -1,4 +1,5 @@
 <?php namespace Davispeixoto\ForceDotComToolkitForPhp;
+
 /*
  * Copyright (c) 2007, salesforce.com, inc.
  * All rights reserved.
@@ -25,8 +26,10 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-abstract class ProcessRequest {
-	public $comments;
-	public $nextApproverIds;
+abstract class ProcessRequest
+{
+    public $comments;
+    public $nextApproverIds;
 }
+
 ?>
