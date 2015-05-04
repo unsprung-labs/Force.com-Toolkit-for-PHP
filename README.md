@@ -8,10 +8,11 @@ See the [getting started guide](http://wiki.developerforce.com/index.php/Getting
 
 [![Latest Stable Version](https://img.shields.io/packagist/v/davispeixoto/force-dot-com-toolkit-for-php.svg)](https://packagist.org/packages/davispeixoto/force-dot-com-toolkit-for-php)
 [![Total Downloads](https://img.shields.io/packagist/dt/davispeixoto/force-dot-com-toolkit-for-php.svg)](https://packagist.org/packages/davispeixoto/force-dot-com-toolkit-for-php)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/eca47fa7-9ab3-431f-b551-217118408f1a/small.png)](https://insight.sensiolabs.com/projects/eca47fa7-9ab3-431f-b551-217118408f1a)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/davispeixoto/Force.com-Toolkit-for-PHP/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/davispeixoto/Force.com-Toolkit-for-PHP/?branch=master)
 [![Codacy Badge](https://www.codacy.com/project/badge/7c3e856c500046a882d061c09ed5aaca)](https://www.codacy.com/app/davis-peixoto/Force-com-Toolkit-for-PHP)
+[![Code Climate](https://codeclimate.com/github/davispeixoto/Force.com-Toolkit-for-PHP/badges/gpa.svg)](https://codeclimate.com/github/davispeixoto/Force.com-Toolkit-for-PHP)
 [![Build Status](https://travis-ci.org/davispeixoto/Force.com-Toolkit-for-PHP.svg?branch=master)](https://travis-ci.org/davispeixoto/Force.com-Toolkit-for-PHP)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/eca47fa7-9ab3-431f-b551-217118408f1a/small.png)](https://insight.sensiolabs.com/projects/eca47fa7-9ab3-431f-b551-217118408f1a)
 
 This fork is intended to make the Force.com Toolkit for PHP in packagist and will be used in my personal project to its classes and facilities available to be used in a Laravel 4 port.
 
