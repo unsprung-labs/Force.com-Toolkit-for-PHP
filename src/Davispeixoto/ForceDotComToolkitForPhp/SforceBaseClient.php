@@ -34,6 +34,7 @@ use SoapClient;
 use SoapHeader;
 use SoapVar;
 use stdClass;
+use Exception;
 
 /**
  * SalesforceSoapClient
