@@ -113,10 +113,8 @@ class SforceBaseClient
      */
     public function createConnection($wsdl, $proxy = null, $soap_options = array())
     {
-        // We don't need to parse out any subversion suffix - e.g. "-01" since
-        // PHP type conversion will ignore it
-        $phpversion = substr(phpversion(), 0, strpos(phpversion(), '-'));
-        if ($phpversion < 5.3) {
+        // use correct version comparison
+        if (version_compare(phpversion(), '5.3', '<')) {
             throw new Exception ('PHP versions older than 5.3 are no longer supported. Please upgrade!');
         }
 
