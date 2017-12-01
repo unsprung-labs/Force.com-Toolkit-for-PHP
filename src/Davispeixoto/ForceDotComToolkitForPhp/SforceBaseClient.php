@@ -635,12 +635,29 @@ class SforceBaseClient
      */
     public function convertLead($leadConverts)
     {
-        $this->setHeaders("convertLead");
+		$this->setHeaders("convertLead");
         $arg = new stdClass();
-        $arg->leadConverts = $leadConverts;
+        
+        foreach ($leadConverts as $k => $lc) {
+            if (isset($lc->contactRecord) && !$lc->contactRecord instanceof SoapVar) {
+                $lc->contactRecord = new SoapVar($lc->contactRecord, SOAP_ENC_OBJECT, 'Contact', $this->namespace);
+            }
 
-        return $this->sforce->convertLead($arg);
-    }
+            if (isset($lc->opportunityRecord) && !$lc->opportunityRecord instanceof SoapVar) {
+                $lc->opportunityRecord = new SoapVar($lc->opportunityRecord, SOAP_ENC_OBJECT, 'Opportunity', $this->namespace);
+            }
+
+            if (isset($lc->accountRecord) && !$lc->accountRecord instanceof SoapVar) {
+                $lc->accountRecord = new SoapVar($lc->accountRecord, SOAP_ENC_OBJECT, 'Account', $this->namespace);
+            }
+
+            $leadConverts[$k] = $lc;
+        }
+		
+        $arg->leadConverts = $leadConverts;
+        
+		return $this->sforce->convertLead($arg);
+	}
 
     /**
      * Deletes one or more new individual objects to your organization's data.
