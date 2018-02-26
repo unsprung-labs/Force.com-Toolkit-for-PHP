@@ -84,7 +84,7 @@ class SforceBaseClient
     public function printDebugInfo()
     {
         echo 'PHP Toolkit Version: ' . $this->version . PHP_EOL;
-        echo 'Current PHP version: ' . phpversion();
+        echo 'Current PHP version: ' . PHP_VERSION;
         echo PHP_EOL;
         echo 'SOAP enabled: ';
         if (extension_loaded('soap')) {
@@ -114,7 +114,7 @@ class SforceBaseClient
     public function createConnection($wsdl, $proxy = null, $soap_options = array())
     {
         // use correct version comparison
-        if (version_compare(phpversion(), '5.3', '<')) {
+        if (version_compare(PHP_VERSION, '5.3', '<')) {
             throw new Exception ('PHP versions older than 5.3 are no longer supported. Please upgrade!');
         }
 

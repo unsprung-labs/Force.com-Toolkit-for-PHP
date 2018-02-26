@@ -166,5 +166,3 @@ class SforceEnterpriseClient extends SforceBaseClient
         return parent::_merge($arg);
     }
 }
-
-?>
