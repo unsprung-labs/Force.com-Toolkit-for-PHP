@@ -68,27 +68,27 @@ class QueryResult implements \Iterator
     }
 
     // Basic Iterator implementation functions
-    public function rewind()
+    public function rewind(): void
     {
         $this->pointer = 0;
     }
 
-    public function next()
+    public function next(): void
     {
         ++$this->pointer;
     }
 
-    public function key()
+    public function key(): mixed
     {
         return $this->pointer;
     }
 
-    public function current()
+    public function current(): mixed
     {
         return new SObject($this->records[$this->pointer]);
     }
 
-    public function valid()
+    public function valid(): bool
     {
         while ($this->pointer >= count($this->records)) {
             // Pointer is larger than (current) result set; see if we can fetch more
